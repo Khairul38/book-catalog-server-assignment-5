@@ -1,11 +1,6 @@
 import { Model, Types } from "mongoose";
 import { IUser } from "../user/user.interface";
-
-export type IReview = {
-  userName: string;
-  userEmail: string;
-  message: string;
-};
+import { IReview } from "../review/review.interface";
 
 export type IBook = {
   title: string;

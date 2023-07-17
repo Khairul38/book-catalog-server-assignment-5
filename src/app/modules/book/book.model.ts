@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import { BookModel, IBook } from "./book.interface";
+import { ReviewSchema } from "../review/review.model";
 
 const BookSchema = new Schema<IBook, BookModel>(
   {
@@ -37,7 +38,7 @@ const BookSchema = new Schema<IBook, BookModel>(
       required: true,
     },
     reviews: {
-      type: Array,
+      type: [ReviewSchema],
       default: [],
     },
   },
