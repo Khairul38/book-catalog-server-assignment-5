@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome To Digital Cow Hut Backend Server");
+  res.send("Welcome To Book Catalog Server");
 });
 app.use("/api/v1", routes);
 
