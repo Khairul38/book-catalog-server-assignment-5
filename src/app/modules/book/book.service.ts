@@ -10,19 +10,12 @@ import { calculatePagination } from "../../../helpers/paginationHelper";
 import { SortOrder } from "mongoose";
 import { JwtPayload } from "jsonwebtoken";
 
-export const createBookToDB = async (payload: IBook): Promise<IBook> => {
-  // handle user validation
-  const isExit = await User.findOne({
-    _id: payload.postedBy,
-    role: "user",
-  });
-
-  if (!isExit) {
-    throw new ApiError(
-      httpStatus.NOT_FOUND,
-      "User not found with this postedBy id. Please provide a valid user id"
-    );
-  }
+export const createBookToDB = async (
+  user: JwtPayload | null,
+  payload: IBook
+): Promise<IBook> => {
+  // set postedBy
+  payload.postedBy = user?._id;
 
   const result = await Book.create(payload);
   return result;

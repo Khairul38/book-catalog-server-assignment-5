@@ -36,6 +36,10 @@ const BookSchema = new Schema<IBook, BookModel>(
       ref: "User",
       required: true,
     },
+    reviews: {
+      type: Array,
+      default: [],
+    },
   },
   {
     timestamps: true,

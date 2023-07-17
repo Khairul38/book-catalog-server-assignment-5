@@ -15,8 +15,9 @@ import { bookFilterableFields } from "./book.constant";
 import { paginationFields } from "../../../constants/pagination";
 
 export const createBook = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
   const { ...bookData } = req.body;
-  const result = await createBookToDB(bookData);
+  const result = await createBookToDB(user, bookData);
 
   sendResponse<IBook>(res, {
     statusCode: httpStatus.OK,

@@ -23,7 +23,7 @@ export const getProfile = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IUser>(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "User's information retrieved successfully",
+    message: "User information retrieved successfully",
     data: result,
   });
 });

@@ -46,6 +46,9 @@ export const updateProfileToDB = async (
     });
   }
 
+  // set role
+  updatedUserData.role = "user";
+
   // hash password before update
   if (userData.password) {
     updatedUserData.password = await bcrypt.hash(

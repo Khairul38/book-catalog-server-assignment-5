@@ -23,9 +23,11 @@ export const createBookZodSchema = z.object({
     price: z.number({
       required_error: "Price is required",
     }),
-    postedBy: z.string({
-      required_error: "Posted by id is required",
-    }),
+    postedBy: z
+      .string({
+        required_error: "Posted by id is required",
+      })
+      .optional(),
   }),
 });
 
