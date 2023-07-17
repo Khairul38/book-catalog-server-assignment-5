@@ -1,6 +1,6 @@
 import express from "express";
 import { validateRequest } from "../../middlewares/validateRequest";
-import { createBookZodSchema } from "./book.validation";
+import { createBookZodSchema, updateBookZodSchema } from "./book.validation";
 import {
   createBook,
   deleteSingleBook,
@@ -26,7 +26,12 @@ router.get(
   getSingleBook
 );
 
-router.patch("/:id", auth(ENUM_USER_ROLE.USER), updateSingleBook);
+router.patch(
+  "/:id",
+  validateRequest(updateBookZodSchema),
+  auth(ENUM_USER_ROLE.USER),
+  updateSingleBook
+);
 
 router.delete("/:id", auth(ENUM_USER_ROLE.USER), deleteSingleBook);
 

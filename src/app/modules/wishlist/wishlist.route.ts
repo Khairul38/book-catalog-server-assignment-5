@@ -1,6 +1,9 @@
 import express from "express";
 import { validateRequest } from "../../middlewares/validateRequest";
-import { createWishlistZodSchema } from "./wishlist.validation";
+import {
+  createWishlistZodSchema,
+  updateWishlistZodSchema,
+} from "./wishlist.validation";
 import {
   createWishlist,
   getAllWishlist,
@@ -31,7 +34,12 @@ router.get(
   getSingleWishlist
 );
 
-router.patch("/:id", auth(ENUM_USER_ROLE.USER), updateSingleWishlist);
+router.patch(
+  "/:id",
+  validateRequest(updateWishlistZodSchema),
+  auth(ENUM_USER_ROLE.USER),
+  updateSingleWishlist
+);
 
 router.delete("/:id", auth(ENUM_USER_ROLE.USER), deleteSingleWishlist);
 

@@ -16,14 +16,19 @@ const router = express.Router();
 
 router.get("/my-profile", auth(ENUM_USER_ROLE.USER), getProfile);
 
-router.patch("/my-profile", auth(ENUM_USER_ROLE.USER), updateProfile);
+router.patch(
+  "/my-profile",
+  validateRequest(updateUserZodSchema),
+  auth(ENUM_USER_ROLE.USER),
+  updateProfile
+);
 
 router.get("/:id", auth(ENUM_USER_ROLE.ADMIN), getSingleUser);
 
 router.patch(
   "/:id",
-  auth(ENUM_USER_ROLE.ADMIN),
   validateRequest(updateUserZodSchema),
+  auth(ENUM_USER_ROLE.ADMIN),
   updateSingleUser
 );
 
