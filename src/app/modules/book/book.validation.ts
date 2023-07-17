@@ -1,10 +1,4 @@
 import { z } from "zod";
-// import {
-//   cowBreeds,
-//   cowCategories,
-//   cowLabels,
-//   cowLocations,
-// } from "./book.constant";
 
 export const createBookZodSchema = z.object({
   body: z.object({

@@ -1,11 +1,5 @@
 import { Schema, model } from "mongoose";
 import { BookModel, IBook } from "./book.interface";
-// import {
-//   cowBreeds,
-//   cowCategories,
-//   cowLabels,
-//   cowLocations,
-// } from "./book.constant";
 
 const BookSchema = new Schema<IBook, BookModel>(
   {

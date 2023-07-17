@@ -1,28 +1,6 @@
 import { Model, Types } from "mongoose";
 import { IUser } from "../user/user.interface";
 
-// export type ICowLocations =
-//   | "Dhaka"
-//   | "Chattogram"
-//   | "Barishal"
-//   | "Rajshahi"
-//   | "Sylhet"
-//   | "Comilla"
-//   | "Rangpur"
-//   | "Mymensingh";
-
-// export type ICowBreeds =
-//   | "Brahman"
-//   | "Nellore"
-//   | "Sahiwal"
-//   | "Gir"
-//   | "Indigenous"
-//   | "Tharparkar"
-//   | "Kankrej";
-
-// export type ICowLabels = "for sale" | "sold out";
-// export type ICowCategories = "Dairy" | "Beef" | "Dual Purpose";
-
 export type IBook = {
   title: string;
   author: string;
