@@ -11,12 +11,32 @@ import { createToken, verifyToken } from "../../../helpers/jwtHelpers";
 import config from "../../../config";
 import { Secret } from "jsonwebtoken";
 
-export const createUserToDB = async (user: IUser): Promise<IUser> => {
+export const createUserToDB = async (
+  user: IUser
+): Promise<ILoginUserResponse> => {
   // set role
   user.role = "user";
   const createdUser = await User.create(user);
   if (createdUser) {
-    return createdUser;
+    //create access token & refresh token
+    const { _id, role, name, email } = createdUser;
+    const accessToken = createToken(
+      { _id, role, email, name },
+      config.jwt.secret as Secret,
+      config.jwt.expires_in as string
+    );
+
+    const refreshToken = createToken(
+      { _id, role, email, name },
+      config.jwt.refresh_secret as Secret,
+      config.jwt.refresh_expires_in as string
+    );
+
+    return {
+      accessToken,
+      refreshToken,
+    };
+    // return createdUser;
   } else {
     throw new ApiError(httpStatus.BAD_REQUEST, "Failed to create user!");
   }
