@@ -22,7 +22,7 @@ export const auth =
 
       verifiedUser = verifyToken(token, config.jwt.secret as Secret);
 
-      req.user = verifiedUser; // _id, role, phoneNumber
+      req.user = verifiedUser; // _id, role, email
 
       // role diye guard korar jnno
       if (requiredRoles.length && !requiredRoles.includes(verifiedUser.role)) {

@@ -12,6 +12,8 @@ import config from "../../../config";
 import { Secret } from "jsonwebtoken";
 
 export const createUserToDB = async (user: IUser): Promise<IUser> => {
+  // set role
+  user.role = "user";
   const createdUser = await User.create(user);
   if (createdUser) {
     return createdUser;
@@ -23,11 +25,14 @@ export const createUserToDB = async (user: IUser): Promise<IUser> => {
 export const loginUserFromDB = async (
   payload: ILoginUser
 ): Promise<ILoginUserResponse> => {
-  const { phoneNumber, password } = payload;
+  const { email, password } = payload;
 
-  const isUserExist = await User.isUserExist(phoneNumber);
+  const isUserExist = await User.isUserExist(email);
   if (!isUserExist) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      "User does not exist with this email"
+    );
   }
 
   if (
@@ -38,15 +43,15 @@ export const loginUserFromDB = async (
   }
 
   //create access token & refresh token
-  const { _id, role } = isUserExist;
+  const { _id, role, name } = isUserExist;
   const accessToken = createToken(
-    { _id, role, phoneNumber },
+    { _id, role, email, name },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
 
   const refreshToken = createToken(
-    { _id, role, phoneNumber },
+    { _id, role, email, name },
     config.jwt.refresh_secret as Secret,
     config.jwt.refresh_expires_in as string
   );
@@ -69,11 +74,11 @@ export const refreshTokenUserFromDB = async (
     throw new ApiError(httpStatus.FORBIDDEN, "Invalid Refresh Token");
   }
 
-  const { phoneNumber } = verifiedToken;
+  const { email, name } = verifiedToken;
 
   // tumi delete hye gso  kintu tumar refresh token ase
   // checking deleted user's refresh token
-  const isUserExist = await User.isUserExist(phoneNumber);
+  const isUserExist = await User.isUserExist(email);
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
   }
@@ -83,7 +88,8 @@ export const refreshTokenUserFromDB = async (
     {
       _id: isUserExist._id,
       role: isUserExist.role,
-      phoneNumber,
+      email,
+      name,
     },
     config.jwt.secret as Secret,
     config.jwt.expires_in as string

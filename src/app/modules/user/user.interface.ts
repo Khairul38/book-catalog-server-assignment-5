@@ -1,22 +1,19 @@
 import { Model } from "mongoose";
 
-export type IUserRoles = "seller" | "buyer";
+export type IUserRoles = "user" | "admin";
 
 export type IUser = {
   name: {
     firstName: string;
     lastName: string;
   };
-  phoneNumber: string;
+  email: string;
   password: string;
   role: IUserRoles;
-  address: string;
-  budget: number;
-  income: number;
 };
 
 export type UserModel = {
-  isUserExist(phoneNumber: string): Promise<(IUser & { _id: string }) | null>;
+  isUserExist(email: string): Promise<(IUser & { _id: string }) | null>;
   isPasswordMatched(
     givenPassword: string,
     savedPassword: string
@@ -27,4 +24,6 @@ export type UserModel = {
 
 export type IUserFilters = {
   searchTerm?: string;
+  email?: string;
+  role?: string;
 };

@@ -7,7 +7,7 @@ import { calculatePagination } from "../../../helpers/paginationHelper";
 import { ApiError } from "../../../errors/apiError";
 import httpStatus from "http-status";
 import { User } from "../user/user.model";
-import { Cow } from "../cow/cow.model";
+import { Cow } from "../book/cow.model";
 import { JwtPayload } from "jsonwebtoken";
 
 export const createOrderToDB = async (

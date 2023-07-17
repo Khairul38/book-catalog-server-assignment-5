@@ -1,12 +1,7 @@
 import { IUserRoles } from "./user.interface";
 
-export const userRoles: IUserRoles[] = ["seller", "buyer"];
+export const userRoles: IUserRoles[] = ["user", "admin"];
 
-export const userSearchableFields = ["role", "address", "phoneNumber"];
+export const userSearchableFields = ["email", "role"];
 
-export const userFilterableFields = [
-  "searchTerm",
-  "role",
-  "address",
-  "phoneNumber",
-];
+export const userFilterableFields = ["searchTerm", "email", "role"];

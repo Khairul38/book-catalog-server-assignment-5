@@ -1,6 +1,6 @@
 import { Model, Types } from "mongoose";
 import { IUser } from "../user/user.interface";
-import { ICow } from "../cow/cow.interface";
+import { ICow } from "../book/book.interface";
 
 export type IOrder = {
   cow: Types.ObjectId | ICow;

@@ -27,12 +27,12 @@ export const updateProfileToDB = async (
   payload: Partial<IUser>
 ): Promise<IUser | null> => {
   const { name, ...userData } = payload;
-  if (userData.phoneNumber) {
-    const isExist = await User.findOne({ phoneNumber: userData.phoneNumber });
+  if (userData.email) {
+    const isExist = await User.findOne({ email: userData.email });
     if (isExist) {
       throw new ApiError(
         httpStatus.CONFLICT,
-        "Another user already exists with this phone number. Please provide a new phone number."
+        "Another user already exists with this email. Please provide a new email."
       );
     }
   }
@@ -141,26 +141,41 @@ export const updateSingleUserToDB = async (
   id: string,
   payload: Partial<IUser>
 ): Promise<IUser | null> => {
-  if (payload.phoneNumber) {
-    const isExist = await User.findOne({ phoneNumber: payload.phoneNumber });
+  const { name, ...userData } = payload;
+  if (userData.email) {
+    const isExist = await User.findOne({ email: userData.email });
     if (isExist) {
       throw new ApiError(
         httpStatus.CONFLICT,
-        "Another user already exists with this phone number. Please provide a new phone number."
+        "Another user already exists with this email. Please provide a new email."
       );
     }
   }
 
-  const result = await User.findOneAndUpdate({ _id: id }, payload, {
+  const updatedUserData: Partial<IUser> = { ...userData };
+
+  if (name && Object.keys(name).length > 0) {
+    Object.keys(name).forEach(key => {
+      const nameKey = `name.${key}` as keyof Partial<IUser>; // `name.firstName`
+      (updatedUserData as any)[nameKey] = name[key as keyof typeof name];
+    });
+  }
+
+  // hash password before update
+  if (userData.password) {
+    updatedUserData.password = await bcrypt.hash(
+      userData.password,
+      Number(config.bcrypt_salt_rounds)
+    );
+  }
+
+  const result = await User.findOneAndUpdate({ _id: id }, updatedUserData, {
     new: true,
   });
   if (result) {
     return result;
   } else {
-    throw new ApiError(
-      httpStatus.NOT_FOUND,
-      "User not found with this id. Please provide a valid user id"
-    );
+    throw new ApiError(httpStatus.BAD_REQUEST, "Failed to update user");
   }
 };
 

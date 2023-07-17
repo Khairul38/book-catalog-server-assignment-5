@@ -19,7 +19,7 @@ const UserSchema = new Schema<IUser, UserModel>(
         required: true,
       },
     },
-    phoneNumber: {
+    email: {
       type: String,
       required: true,
       unique: true,
@@ -32,18 +32,6 @@ const UserSchema = new Schema<IUser, UserModel>(
       type: String,
       required: true,
       enum: userRoles,
-    },
-    address: {
-      type: String,
-      required: true,
-    },
-    budget: {
-      type: Number,
-      required: true,
-    },
-    income: {
-      type: Number,
-      required: true,
     },
   },
   {
@@ -58,9 +46,12 @@ const UserSchema = new Schema<IUser, UserModel>(
 );
 
 UserSchema.statics.isUserExist = async function (
-  phoneNumber: string
+  email: string
 ): Promise<IUser | null> {
-  return await User.findOne({ phoneNumber }, { _id: 1, password: 1, role: 1 });
+  return await User.findOne(
+    { email },
+    { _id: 1, password: 1, role: 1, name: 1 }
+  );
 };
 
 UserSchema.statics.isPasswordMatched = async function (
@@ -70,19 +61,19 @@ UserSchema.statics.isPasswordMatched = async function (
   return await bcrypt.compare(givenPassword, savedPassword);
 };
 
-// handle duplicate entry using same phone number
+// handle duplicate entry using same email
 UserSchema.pre("save", async function (next) {
-  const isExist = await User.findOne({ phoneNumber: this.phoneNumber });
+  const isExist = await User.findOne({ email: this.email });
   if (isExist) {
     throw new ApiError(
       httpStatus.CONFLICT,
-      "Another user already exists with this phone number. Please provide a new phone number."
+      "Another user already exists with this email. Please provide a new email."
     );
   } else {
-    // Hash admin password
-    const admin = this;
-    admin.password = await bcrypt.hash(
-      admin.password,
+    // Hash user password
+    const user = this;
+    user.password = await bcrypt.hash(
+      user.password,
       Number(config.bcrypt_salt_rounds)
     );
   }

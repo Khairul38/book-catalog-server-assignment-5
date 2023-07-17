@@ -14,17 +14,9 @@ import { ENUM_USER_ROLE } from "../../../enums/user";
 
 const router = express.Router();
 
-router.get(
-  "/my-profile",
-  auth(ENUM_USER_ROLE.BUYER, ENUM_USER_ROLE.SELLER),
-  getProfile
-);
+router.get("/my-profile", auth(ENUM_USER_ROLE.USER), getProfile);
 
-router.patch(
-  "/my-profile",
-  auth(ENUM_USER_ROLE.BUYER, ENUM_USER_ROLE.SELLER),
-  updateProfile
-);
+router.patch("/my-profile", auth(ENUM_USER_ROLE.USER), updateProfile);
 
 router.get("/:id", auth(ENUM_USER_ROLE.ADMIN), getSingleUser);
 

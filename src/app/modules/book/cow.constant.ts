@@ -3,7 +3,7 @@ import {
   ICowCategories,
   ICowLabels,
   ICowLocations,
-} from "./cow.interface";
+} from "./book.interface";
 
 export const cowLocations: ICowLocations[] = [
   "Dhaka",

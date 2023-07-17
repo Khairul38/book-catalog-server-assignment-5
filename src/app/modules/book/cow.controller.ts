@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { catchAsync } from "../../../shared/catchAsync";
-import { ICow } from "./cow.interface";
+import { ICow } from "./book.interface";
 import httpStatus from "http-status";
 import { sendResponse } from "../../../shared/sendResponse";
 import {

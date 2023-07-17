@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import { ApiError } from "../../../errors/apiError";
-import { ICow, ICowFilters } from "./cow.interface";
+import { ICow, ICowFilters } from "./book.interface";
 import { Cow } from "./cow.model";
 import { User } from "../user/user.model";
 import { IPaginationOptions } from "../../../interfaces/pagination";

@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { CowModel, ICow } from "./cow.interface";
+import { CowModel, ICow } from "./book.interface";
 import {
   cowBreeds,
   cowCategories,
