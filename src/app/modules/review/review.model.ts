@@ -18,9 +18,6 @@ export const ReviewSchema = new Schema<IReview, ReviewModel>(
   },
   {
     timestamps: true,
-    toJSON: {
-      virtuals: true,
-    },
   }
 );
 

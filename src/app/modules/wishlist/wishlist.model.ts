@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 import { IWishlist, WishlistModel } from "./wishlist.interface";
 import { ApiError } from "../../../errors/apiError";
 import httpStatus from "http-status";
+import { wishlistStatus } from "./wishlist.constant";
 
 const WishlistSchema = new Schema<IWishlist, WishlistModel>(
   {
@@ -18,6 +19,7 @@ const WishlistSchema = new Schema<IWishlist, WishlistModel>(
     status: {
       type: String,
       required: true,
+      enum: wishlistStatus,
     },
   },
   {

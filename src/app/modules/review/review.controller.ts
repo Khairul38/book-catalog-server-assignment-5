@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import { catchAsync } from "../../../shared/catchAsync";
 import { sendResponse } from "../../../shared/sendResponse";
 import httpStatus from "http-status";
-import { createReviewToDB } from "./review.service";
+import { createReviewToDB, getReviewsByBookIdFromDB } from "./review.service";
 import { IBook } from "../book/book.interface";
+import { IReview } from "./review.interface";
 
 export const createReview = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -17,3 +18,18 @@ export const createReview = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+export const getReviewsByBookId = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    const result = await getReviewsByBookIdFromDB(id);
+
+    sendResponse<IReview[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Reviews retrieved successfully",
+      data: result,
+    });
+  }
+);

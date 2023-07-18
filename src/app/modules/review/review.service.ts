@@ -16,8 +16,6 @@ export const createReviewToDB = async (
     }
   );
 
-  console.log(updateBook);
-
   if (updateBook.modifiedCount === 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Failed to post review");
   }
@@ -25,4 +23,18 @@ export const createReviewToDB = async (
   const result = await Book.findById(id);
 
   return result;
+};
+
+export const getReviewsByBookIdFromDB = async (
+  id: string
+): Promise<IReview[] | undefined> => {
+  const result = await Book.findOne({ _id: id }, { _id: 0, reviews: 1 });
+
+  if (!result) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      "Review not found with this id. Please provide a valid book id"
+    );
+  }
+  return result.reviews;
 };
