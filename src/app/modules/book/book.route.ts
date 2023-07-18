@@ -20,21 +20,21 @@ router.post(
   createBook
 );
 
-router.get(
-  "/:id",
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
-  getSingleBook
-);
+router.get("/:id", getSingleBook);
 
 router.patch(
   "/:id",
   validateRequest(updateBookZodSchema),
-  auth(ENUM_USER_ROLE.USER),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   updateSingleBook
 );
 
-router.delete("/:id", auth(ENUM_USER_ROLE.USER), deleteSingleBook);
+router.delete(
+  "/:id",
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+  deleteSingleBook
+);
 
-router.get("/", auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER), getAllBook);
+router.get("/", getAllBook);
 
 export const BookRoutes = router;
