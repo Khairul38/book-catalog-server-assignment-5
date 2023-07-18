@@ -17,6 +17,9 @@ export const createBookZodSchema = z.object({
     description: z.string({
       required_error: "Description is required",
     }),
+    image: z.string({
+      required_error: "Image is required",
+    }),
     rating: z.number({
       required_error: "Rating is required",
     }),
@@ -38,6 +41,7 @@ export const updateBookZodSchema = z.object({
     genre: z.string().optional(),
     publicationYear: z.string().optional(),
     description: z.string().optional(),
+    image: z.string().optional(),
     rating: z.number().optional(),
     price: z.number().optional(),
     postedBy: z.string().optional(),
