@@ -8,4 +8,4 @@ exports.wishlistStatus = [
     "Finished reading",
 ];
 exports.wishlistSearchableFields = ["title", "status"];
-exports.wishlistFilterableFields = ["searchTerm", "status"];
+exports.wishlistFilterableFields = ["user", "searchTerm", "status"];

@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSingleWishlistFromDB = exports.updateSingleWishlistToDB = exports.getAllWishlistFromDB = exports.getAllWishlistByUserFromDB = exports.getSingleWishlistFromDB = exports.createWishlistToDB = void 0;
+exports.deleteSingleWishlistFromDB = exports.updateSingleWishlistToDB = exports.getAllWishlistFromDB = exports.getAllWishlistByUserFromDB = exports.getSingleWishlistByBookIdFromDB = exports.createWishlistToDB = void 0;
 const wishlist_model_1 = require("./wishlist.model");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const apiError_1 = require("../../../errors/apiError");
@@ -111,16 +111,16 @@ const createWishlistToDB = (payload) => __awaiter(void 0, void 0, void 0, functi
     // return newOrderAllData;
 });
 exports.createWishlistToDB = createWishlistToDB;
-const getSingleWishlistFromDB = (user, id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield wishlist_model_1.Wishlist.findOne({ _id: id, user: user === null || user === void 0 ? void 0 : user._id });
+const getSingleWishlistByBookIdFromDB = (user, id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield wishlist_model_1.Wishlist.findOne({ book: id, user: user === null || user === void 0 ? void 0 : user._id });
     if (!result) {
-        throw new apiError_1.ApiError(http_status_1.default.NOT_FOUND, "Wishlist not found with this id / You are not authorized or owner of this wishlist");
+        throw new apiError_1.ApiError(http_status_1.default.NO_CONTENT, "Wishlist not found with this id / You are not authorized or owner of this wishlist");
     }
     else {
         return result;
     }
 });
-exports.getSingleWishlistFromDB = getSingleWishlistFromDB;
+exports.getSingleWishlistByBookIdFromDB = getSingleWishlistByBookIdFromDB;
 const getAllWishlistByUserFromDB = (user, filters, paginationOptions) => __awaiter(void 0, void 0, void 0, function* () {
     const { searchTerm } = filters, filtersData = __rest(filters, ["searchTerm"]);
     const { page, limit, skip, sortBy, sortOrder } = (0, paginationHelper_1.calculatePagination)(paginationOptions);
@@ -147,8 +147,8 @@ const getAllWishlistByUserFromDB = (user, filters, paginationOptions) => __await
         sortConditions[sortBy] = sortOrder;
     }
     const whereCondition = andConditions.length > 0
-        ? [{ user: user === null || user === void 0 ? void 0 : user._id }, { $and: andConditions }]
-        : {};
+        ? { $and: [{ user: user === null || user === void 0 ? void 0 : user._id }, ...andConditions] }
+        : { $and: [{ user: user === null || user === void 0 ? void 0 : user._id }] };
     const result = yield wishlist_model_1.Wishlist.find(whereCondition)
         .populate([
         { path: "book", populate: { path: "postedBy" } },
@@ -215,6 +215,7 @@ const getAllWishlistFromDB = (user, filters, paginationOptions) => __awaiter(voi
 exports.getAllWishlistFromDB = getAllWishlistFromDB;
 const updateSingleWishlistToDB = (user, id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     // handle user authorization
+    console.log(payload, id, user === null || user === void 0 ? void 0 : user._id);
     if (user) {
         const authorizedUser = yield wishlist_model_1.Wishlist.findOne({ _id: id, user: user._id });
         if (!authorizedUser) {

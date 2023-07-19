@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSingleWishlist = exports.updateSingleWishlist = exports.getAllWishlist = exports.getAllWishlistByUser = exports.getSingleWishlist = exports.createWishlist = void 0;
+exports.deleteSingleWishlist = exports.updateSingleWishlist = exports.getAllWishlist = exports.getAllWishlistByUser = exports.getSingleWishlistByBookId = exports.createWishlist = void 0;
 const catchAsync_1 = require("../../../shared/catchAsync");
 const sendResponse_1 = require("../../../shared/sendResponse");
 const http_status_1 = __importDefault(require("http-status"));
@@ -41,10 +41,10 @@ exports.createWishlist = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(vo
         data: result,
     });
 }));
-exports.getSingleWishlist = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getSingleWishlistByBookId = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
     const id = req.params.id;
-    const result = yield (0, wishlist_service_1.getSingleWishlistFromDB)(user, id);
+    const result = yield (0, wishlist_service_1.getSingleWishlistByBookIdFromDB)(user, id);
     (0, sendResponse_1.sendResponse)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
