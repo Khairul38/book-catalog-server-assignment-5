@@ -10,7 +10,7 @@ import {
   deleteSingleWishlistFromDB,
   getAllWishlistByUserFromDB,
   getAllWishlistFromDB,
-  getSingleWishlistFromDB,
+  getSingleWishlistByBookIdFromDB,
   updateSingleWishlistToDB,
 } from "./wishlist.service";
 import { wishlistFilterableFields } from "./wishlist.constant";
@@ -29,12 +29,12 @@ export const createWishlist = catchAsync(
   }
 );
 
-export const getSingleWishlist = catchAsync(
+export const getSingleWishlistByBookId = catchAsync(
   async (req: Request, res: Response) => {
     const user = req.user;
     const id = req.params.id;
 
-    const result = await getSingleWishlistFromDB(user, id);
+    const result = await getSingleWishlistByBookIdFromDB(user, id);
 
     sendResponse<IWishlist>(res, {
       statusCode: httpStatus.OK,

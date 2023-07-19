@@ -110,15 +110,15 @@ export const createWishlistToDB = async (
   // return newOrderAllData;
 };
 
-export const getSingleWishlistFromDB = async (
+export const getSingleWishlistByBookIdFromDB = async (
   user: JwtPayload | null,
   id: string
 ): Promise<IWishlist | null> => {
-  const result = await Wishlist.findOne({ _id: id, user: user?._id });
+  const result = await Wishlist.findOne({ book: id, user: user?._id });
 
   if (!result) {
     throw new ApiError(
-      httpStatus.NOT_FOUND,
+      httpStatus.NO_CONTENT,
       "Wishlist not found with this id / You are not authorized or owner of this wishlist"
     );
   } else {
@@ -164,8 +164,8 @@ export const getAllWishlistByUserFromDB = async (
 
   const whereCondition =
     andConditions.length > 0
-      ? [{ user: user?._id }, { $and: andConditions }]
-      : {};
+      ? { $and: [{ user: user?._id }, ...andConditions] }
+      : { $and: [{ user: user?._id }] };
 
   const result = await Wishlist.find(whereCondition)
     .populate([
@@ -252,6 +252,7 @@ export const updateSingleWishlistToDB = async (
   payload: Partial<IWishlist>
 ): Promise<IWishlist | null> => {
   // handle user authorization
+  console.log(payload, id, user?._id);
   if (user) {
     const authorizedUser = await Wishlist.findOne({ _id: id, user: user._id });
 

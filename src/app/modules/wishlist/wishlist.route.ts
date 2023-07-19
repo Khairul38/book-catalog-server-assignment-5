@@ -8,7 +8,7 @@ import {
   createWishlist,
   getAllWishlist,
   getAllWishlistByUser,
-  getSingleWishlist,
+  getSingleWishlistByBookId,
   updateSingleWishlist,
   deleteSingleWishlist,
 } from "./wishlist.controller";
@@ -26,12 +26,12 @@ router.post(
 
 router.get("/", auth(ENUM_USER_ROLE.ADMIN), getAllWishlist);
 
-router.get("/user", auth(ENUM_USER_ROLE.ADMIN), getAllWishlistByUser);
+router.get("/user", auth(ENUM_USER_ROLE.USER), getAllWishlistByUser);
 
 router.get(
   "/:id",
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
-  getSingleWishlist
+  getSingleWishlistByBookId
 );
 
 router.patch(

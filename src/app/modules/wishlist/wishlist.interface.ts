@@ -17,6 +17,7 @@ export type IWishlist = {
 export type WishlistModel = Model<IWishlist, Record<string, unknown>>;
 
 export type IWishlistFilters = {
+  user?: string;
   searchTerm?: string;
   status?: string;
 };

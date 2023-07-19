@@ -9,4 +9,4 @@ export const wishlistStatus: IWishlistStatus[] = [
 
 export const wishlistSearchableFields = ["title", "status"];
 
-export const wishlistFilterableFields = ["searchTerm", "status"];
+export const wishlistFilterableFields = ["user", "searchTerm", "status"];
