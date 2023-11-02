@@ -16,7 +16,7 @@ const router = express.Router();
 router.post(
   "/",
   validateRequest(createBookZodSchema),
-  auth(ENUM_USER_ROLE.USER),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   createBook
 );
 

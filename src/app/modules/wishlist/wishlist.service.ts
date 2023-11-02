@@ -16,7 +16,7 @@ export const createWishlistToDB = async (
 ): Promise<IWishlist | null> => {
   const isUser = await User.findOne({
     _id: payload.user,
-    role: "user",
+    // role: "user",
   });
   const isBook = await Book.findById(payload.book);
 
@@ -252,7 +252,7 @@ export const updateSingleWishlistToDB = async (
   payload: Partial<IWishlist>
 ): Promise<IWishlist | null> => {
   // handle user authorization
-  console.log(payload, id, user?._id);
+  // console.log(payload, id, user?._id);
   if (user) {
     const authorizedUser = await Wishlist.findOne({ _id: id, user: user._id });
 

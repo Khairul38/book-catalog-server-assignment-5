@@ -14,12 +14,16 @@ import { ENUM_USER_ROLE } from "../../../enums/user";
 
 const router = express.Router();
 
-router.get("/my-profile", auth(ENUM_USER_ROLE.USER), getProfile);
+router.get(
+  "/my-profile",
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+  getProfile
+);
 
 router.patch(
   "/my-profile",
   validateRequest(updateUserZodSchema),
-  auth(ENUM_USER_ROLE.USER),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   updateProfile
 );
 

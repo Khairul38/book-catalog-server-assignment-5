@@ -34,7 +34,7 @@ const wishlist_constant_1 = require("./wishlist.constant");
 const createWishlistToDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isUser = yield user_model_1.User.findOne({
         _id: payload.user,
-        role: "user",
+        // role: "user",
     });
     const isBook = yield book_model_1.Book.findById(payload.book);
     if (!isUser) {
@@ -215,7 +215,7 @@ const getAllWishlistFromDB = (user, filters, paginationOptions) => __awaiter(voi
 exports.getAllWishlistFromDB = getAllWishlistFromDB;
 const updateSingleWishlistToDB = (user, id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     // handle user authorization
-    console.log(payload, id, user === null || user === void 0 ? void 0 : user._id);
+    // console.log(payload, id, user?._id);
     if (user) {
         const authorizedUser = yield wishlist_model_1.Wishlist.findOne({ _id: id, user: user._id });
         if (!authorizedUser) {

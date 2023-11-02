@@ -10,7 +10,7 @@ const router = express.Router();
 router.post(
   "/:id",
   validateRequest(createReviewZodSchema),
-  auth(ENUM_USER_ROLE.USER),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   createReview
 );
 router.get("/:id", getReviewsByBookId);

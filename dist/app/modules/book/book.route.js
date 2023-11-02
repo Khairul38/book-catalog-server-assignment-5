@@ -11,7 +11,7 @@ const book_controller_1 = require("./book.controller");
 const auth_1 = require("../../middlewares/auth");
 const user_1 = require("../../../enums/user");
 const router = express_1.default.Router();
-router.post("/", (0, validateRequest_1.validateRequest)(book_validation_1.createBookZodSchema), (0, auth_1.auth)(user_1.ENUM_USER_ROLE.USER), book_controller_1.createBook);
+router.post("/", (0, validateRequest_1.validateRequest)(book_validation_1.createBookZodSchema), (0, auth_1.auth)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.USER), book_controller_1.createBook);
 router.get("/:id", book_controller_1.getSingleBook);
 router.patch("/:id", (0, validateRequest_1.validateRequest)(book_validation_1.updateBookZodSchema), (0, auth_1.auth)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.USER), book_controller_1.updateSingleBook);
 router.delete("/:id", (0, auth_1.auth)(user_1.ENUM_USER_ROLE.ADMIN, user_1.ENUM_USER_ROLE.USER), book_controller_1.deleteSingleBook);
